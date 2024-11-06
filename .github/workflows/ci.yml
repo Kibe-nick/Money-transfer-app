@@ -1,0 +1,25 @@
+name: Basic CI Workflow
+
+on:
+  push:
+    branches:
+      - 'main'  # Trigger when code is pushed to the 'main' branch 
+  pull_request:
+  workflow_dispatch:  # Trigger manually via GitHub UI
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu, windows, macos]   # Matrix for multiple OS environments
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install  # Adjust for your dependency manager, e.g., `yarn install`
+
+      - name: Run tests
+        run: npm test  # Or `yarn test`, depending on your test setup
